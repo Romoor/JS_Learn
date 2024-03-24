@@ -48,6 +48,82 @@ function addEntry() {
       id="${entryDropdown.value}-${entryNumber}-calories"
       placeholder="Calories"
     />`;
-    targetInputContainer.innerHTML += HTMLString;
+    targetInputContainer.insertAdjacentHTML('beforeend', HTMLString);
 }
+
+/**
+ * 
+ * @param {*} e 
+ * @returns NA
+ * calculates total calories
+ */
+function calculateCalories(e) {
+
+    //prevent default reload of page
+    e.preventDefault();
+    //reset global error to false
+    isError = false;
+
+    //assign vars to value of user entries
+    const breakfastNumberInputs = document.querySelectorAll('#breakfast input[type=number]');
+    const lunchNumberInputs = document.querySelectorAll('#lunch input[type=number]');
+    const dinnerNumberInputs = document.querySelectorAll('#dinner input[type=number]');
+    const snacksNumberInputs = document.querySelectorAll('#snacks input[type=number]');
+    const exerciseNumberInputs = document.querySelectorAll('#exercise input[type=number]');
+
+    //assign vars to calorie amounts
+    const breakfastCalories = getCaloriesFromInputs(breakfastNumberInputs);
+    const lunchCalories = getCaloriesFromInputs(lunchNumberInputs);
+    const dinnerCalories = getCaloriesFromInputs(dinnerNumberInputs);
+    const snacksCalories = getCaloriesFromInputs(snacksNumberInputs);
+    const exerciseCalories = getCaloriesFromInputs(exerciseNumberInputs);
+    const budgetCalories = getCaloriesFromInputs([budgetNumberInput]);
+
+    //end function if there is an error
+    if (isError) {
+        return;
+    }
+
+    //calculate values
+    const consumedCalories = breakfastCalories + lunchCalories + dinnerCalories + snacksCalories;
+    const remainingCalories = budgetCalories - consumedCalories + exerciseCalories;
+    const surplusOrDeficit = remainingCalories < 0 ? 'Surplus' : 'Deficit';
+
+    //create template literal
+    output.innerHTML = `
+    <span class="${surplusOrDeficit.toLowerCase()}">${Math.abs(remainingCalories)} Calorie ${surplusOrDeficit}</span>
+    <hr>
+    <p>${budgetCalories} Calories Budgeted</p>
+    <p>${consumedCalories} Calories Consumed</p>
+    <p>${exerciseCalories} Calories Burned</p>
+    `;
+
+    //make output visible
+    output.classList.remove('hide');
+}
+/**
+ * 
+ * @param {*} list 
+ * @returns 
+ */
+function getCaloriesFromInputs(list) {
+    let calories = 0;
+
+    //calculate total calories
+    for (const item of list) {
+        const currVal = cleanInputString(item.value);
+        const invalidInputMatch = isInvalidInput(currVal);
+
+        if (invalidInputMatch) {
+            alert(`Invalid Input: ${invalidInputMatch[0]}`);
+            isError = true;
+            return null;
+        }
+        calories += Number(currVal);
+    }
+    return calories;
+}
+
+addEntryButton.addEventListener("click", addEntry);
+
 
