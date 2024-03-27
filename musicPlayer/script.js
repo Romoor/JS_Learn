@@ -120,6 +120,19 @@ const pauseSong = () => {
     audio.pause();
 };
 
+//play next song
+const playNextSong = () => {
+
+    if (userData?.currentSong === null) {
+        playSong(userData?.songs[0].id);
+    } else {
+        const currentSongIndex = getCurrentSongIndex();
+        const nextSong = userData?.songs[currentSongIndex + 1];
+
+        playSong(nextSong.id);
+    }
+};
+
 //display songs and playlist
 const renderSongs = (array) => {
     const songsHTML = array
@@ -142,6 +155,9 @@ const renderSongs = (array) => {
 
     playlistSongs.innerHTML = songsHTML;
 };
+
+//get current song index
+const getCurrentSongIndex = () => userData?.songs.indexOf(userData?.currentSong);
 
 //play first or current song
 playButton.addEventListener("click", () => {
