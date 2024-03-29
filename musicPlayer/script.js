@@ -161,6 +161,19 @@ const highlightCurrentSong = () => {
     if (songToHighlight) songToHighlight.setAttribute("aria-current", "true");
 };
 
+//shuffle
+const shuffle = () => {
+    userData?.songs.sort(() => Math.random() - 0.5);
+    userData.currentSong = null;
+    userData.songCurrentTime = 0;
+
+    renderSongs(userData?.songs);
+    pauseSong();
+    setPlayerDisplay();
+    setPlayButonAccessibleText();
+};
+
+
 //set display to current song info
 const setPlayerDisplay = () => {
     const playingSong = document.getElementById("player-song-title");
@@ -226,6 +239,9 @@ nextButton.addEventListener("click", playNextSong);
 
 //play previous song button
 previousButton.addEventListener("click", playPreviousSong);
+
+//shuffle button
+shuffleButton.addEventListener("click", shuffle);
 
 
 //sort songs alphabetically
