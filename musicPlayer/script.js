@@ -132,6 +132,8 @@ const playNextSong = () => {
         playSong(nextSong.id);
     }
     highlightCurrentSong();
+    setPlayerDisplay();
+
 };
 
 //play previous song
@@ -158,6 +160,18 @@ const highlightCurrentSong = () => {
 
     if (songToHighlight) songToHighlight.setAttribute("aria-current", "true");
 };
+
+//set display to current song info
+const setPlayerDisplay = () => {
+    const playingSong = document.getElementById("player-song-title");
+    const songArtist = document.getElementById("player-song-artist");
+    const currentTitle = userData?.currentSong?.title;
+    const currentArtist = userData?.currentSong?.artist;
+
+    playingSong.textContent = currentTitle ? currentTitle : "";
+    songArtist.textContent = currentArtist ? currentArtist : "";
+};
+
 
 //display songs and playlist
 const renderSongs = (array) => {
