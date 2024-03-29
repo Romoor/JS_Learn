@@ -131,6 +131,7 @@ const playNextSong = () => {
 
         playSong(nextSong.id);
     }
+    highlightCurrentSong();
 };
 
 //play previous song
@@ -142,6 +143,20 @@ const playPreviousSong = () => {
 
         playSong(previousSong.id);
     }
+};
+
+//highlight song playing
+const highlightCurrentSong = () => {
+    const playlistSongElements = document.querySelectorAll(".playlist-song");
+    const songToHighlight = document.getElementById(
+        `song-${userData?.currentSong?.id}`
+    );
+
+    playlistSongElements.forEach((songEl) => {
+        songEl.removeAttribute("aria-current");
+    });
+
+    if (songToHighlight) songToHighlight.setAttribute("aria-current", "true");
 };
 
 //display songs and playlist
