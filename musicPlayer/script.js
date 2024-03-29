@@ -196,6 +196,16 @@ const renderSongs = (array) => {
     playlistSongs.innerHTML = songsHTML;
 };
 
+//set play button text
+const setPlayButtonAccessibleText = () => {
+    const song = userData?.currentSong || userData?.songs[0];
+
+    playButton.setAttribute(
+        "aria-label",
+        song?.title ? `Play ${song.title}` : "Play"
+    );
+};
+
 //get current song index
 const getCurrentSongIndex = () => userData?.songs.indexOf(userData?.currentSong);
 
