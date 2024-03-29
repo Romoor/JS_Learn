@@ -133,6 +133,17 @@ const playNextSong = () => {
     }
 };
 
+//play previous song
+const playPreviousSong = () => {
+    if (userData?.currentSong === null) return;
+    else {
+        const currentSongIndex = getCurrentSongIndex();
+        const previousSong = userData?.songs[currentSongIndex - 1];
+
+        playSong(previousSong.id);
+    }
+};
+
 //display songs and playlist
 const renderSongs = (array) => {
     const songsHTML = array
@@ -159,7 +170,7 @@ const renderSongs = (array) => {
 //get current song index
 const getCurrentSongIndex = () => userData?.songs.indexOf(userData?.currentSong);
 
-//play first or current song
+//play first or current song button
 playButton.addEventListener("click", () => {
     if (userData?.currentSong === null) {
         playSong(userData?.songs[0].id);
@@ -168,8 +179,15 @@ playButton.addEventListener("click", () => {
     }
 });
 
-//pause song
+//pause song button
 pauseButton.addEventListener("click", pauseSong);
+
+//play next song button
+nextButton.addEventListener("click", playNextSong);
+
+//play previous song button
+previousButton.addEventListener("click", playPreviousSong);
+
 
 //sort songs alphabetically
 const sortSongs = () => {
