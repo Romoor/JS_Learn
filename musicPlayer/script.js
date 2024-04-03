@@ -278,6 +278,23 @@ previousButton.addEventListener("click", playPreviousSong);
 //shuffle button
 shuffleButton.addEventListener("click", shuffle);
 
+//play next song  button
+audio.addEventListener("ended", () => {
+    const currentSongIndex = getCurrentSongIndex();
+    const nextSongExists = userData?.songs[currentSongIndex + 1] !== undefined;
+
+    if (nextSongExists) {
+        playNextSong();
+    } else {
+        userData.currentSong = null;
+        userData.songCurrentTime = 0;
+
+        pauseSong();
+        setPlayerDisplay();
+        highlightCurrentSong();
+        setPlayButtonAccessibleText();
+    }
+});
 
 //sort songs alphabetically
 const sortSongs = () => {
